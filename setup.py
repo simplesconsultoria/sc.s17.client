@@ -28,7 +28,10 @@ setup(name='sc.s17.client',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          # -*- Extra requirements: -*-
+          'plone.app.dexterity',
+          'collective.autopermission',
+          'plone.namedfile[blobs]',
+          'plone.formwidget.namedfile',
       ],
       entry_points="""
       # -*- Entry points: -*-

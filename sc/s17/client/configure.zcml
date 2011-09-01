@@ -1,15 +1,18 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
+    xmlns:grok="http://namespaces.zope.org/grok"
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="sc.s17.client">
 
-  <five:registerPackage package="." initialize=".initialize" />
+  <includeDependencies package="." />
+  <grok:grok package="." />
 
-  <include package=".browser" />
-  <include package=".content" />
-  <include file="dependencies.zcml" />
+  <permission
+      id="sc.s17.client.AddClient"
+      title="sc.s17.client: Add Client"
+      />
 
   <genericsetup:registerProfile
       name="default"
