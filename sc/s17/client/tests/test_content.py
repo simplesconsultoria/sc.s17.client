@@ -11,8 +11,12 @@ from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
 from plone.dexterity.interfaces import IDexterityFTI
 
+from Products.CMFPlone.interfaces.constrains import IConstrainTypes
+
 from sc.s17.client.content import IClient
 from sc.s17.client.testing import INTEGRATION_TESTING
+
+ctype = 'sc.s17.client.content'
 
 
 class TestClientIntegration(unittest.TestCase):
@@ -26,33 +30,46 @@ class TestClientIntegration(unittest.TestCase):
         setRoles(self.portal, TEST_USER_ID, ['Member'])
         self.folder = self.portal['test-folder']
 
-        self.folder.invokeFactory('sc.s17.client.content', 'obj')
+        self.folder.invokeFactory(ctype, 'obj')
         self.obj = self.folder['obj']
 
     def test_adding(self):
         self.failUnless(IClient.providedBy(self.obj))
 
     def test_fti(self):
-        fti = queryUtility(IDexterityFTI, name='sc.s17.client.content')
+        fti = queryUtility(IDexterityFTI, name=ctype)
         self.assertNotEquals(None, fti)
 
     def test_schema(self):
-        fti = queryUtility(IDexterityFTI, name='sc.s17.client.content')
+        fti = queryUtility(IDexterityFTI, name=ctype)
         schema = fti.lookupSchema()
         self.assertEquals(IClient, schema)
 
     def test_factory(self):
-        fti = queryUtility(IDexterityFTI, name='sc.s17.client.content')
+        fti = queryUtility(IDexterityFTI, name=ctype)
         factory = fti.factory
         new_object = createObject(factory)
         self.failUnless(IClient.providedBy(new_object))
 
     def test_allowed_content_types(self):
         types = ['sc.s17.project.content']
-        self.failUnlessEqual(self.obj.getLocallyAllowedTypes(), types)
-        self.failUnlessEqual(self.obj.getImmediatelyAddableTypes(), types)
+
+        # test allowed content types
+        allowed_types = [t.getId() for t in self.obj.allowedContentTypes()]
+        for t in types:
+            self.failUnless(t in allowed_types)
+
+        # test addable content types on menu
+        constrain = IConstrainTypes(self.obj, None)
+        if constrain:
+            immediately_addable_types = constrain.getLocallyAllowedTypes()
+            for t in types:
+                self.failUnless(t in immediately_addable_types)
+
+        # trying to add any other content type raises an error
         self.assertRaises(ValueError,
                           self.obj.invokeFactory, 'Document', 'foo')
+
         try:
             self.obj.invokeFactory('sc.s17.project.content', 'foo')
         except Unauthorized:
