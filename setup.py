@@ -27,15 +27,18 @@ setup(name='sc.s17.client',
       include_package_data=True,
       zip_safe=False,
       install_requires=[
-          'setuptools',
-          'plone.app.dexterity',
-          'collective.autopermission',
-          'plone.namedfile[blobs]',
-          'plone.formwidget.namedfile',
-      ],
+        'setuptools',
+        'plone.app.dexterity',
+        'plone.app.referenceablebehavior',
+        'collective.autopermission',
+        'plone.namedfile[blobs]',
+        'plone.formwidget.namedfile',
+        'sc.s17.project',
+        ],
+      extras_require={
+        'test': ['plone.app.testing'],
+        },
       entry_points="""
-      # -*- Entry points: -*-
-
       [z3c.autoinclude.plugin]
       target = plone
       """,
