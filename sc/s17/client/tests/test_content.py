@@ -64,6 +64,11 @@ class TestClientIntegration(unittest.TestCase):
         except Unauthorized:
             self.fail()
 
+    def test_view(self):
+        view = self.obj.restrictedTraverse('@@view')
+        projects = view.projects()
+        self.assertEquals(0, len(projects))
+
 
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)
