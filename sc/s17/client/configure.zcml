@@ -7,17 +7,13 @@
     i18n_domain="sc.s17.client">
 
   <includeDependencies package="." />
-  <grok:grok package="." />
-
-  <i18n:registerTranslations directory="locales" />
-
-  <include package=".upgrades" />
-  <include package="sc.s17.project" />
 
   <permission
       id="sc.s17.client.AddClient"
       title="sc.s17.client: Add Client"
       />
+
+  <grok:grok package="." />
 
   <genericsetup:registerProfile
       name="default"
@@ -36,5 +32,9 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       i18n:attributes="title; description"
       />
+
+  <i18n:registerTranslations directory="locales" />
+
+  <include package=".upgrades" />
 
 </configure>
