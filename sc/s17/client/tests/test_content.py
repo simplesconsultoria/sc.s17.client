@@ -11,8 +11,6 @@ from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
 from plone.dexterity.interfaces import IDexterityFTI
 
-from Products.CMFPlone.interfaces.constrains import IConstrainTypes
-
 from sc.s17.client.content import IClient
 from sc.s17.client.testing import INTEGRATION_TESTING
 
@@ -52,26 +50,17 @@ class TestClientIntegration(unittest.TestCase):
         self.failUnless(IClient.providedBy(new_object))
 
     def test_allowed_content_types(self):
-        types = ['sc.s17.project.content']
-
-        # test allowed content types
+        types = ['sc.s17.project']
         allowed_types = [t.getId() for t in self.obj.allowedContentTypes()]
         for t in types:
             self.failUnless(t in allowed_types)
-
-        # test addable content types on menu
-        constrain = IConstrainTypes(self.obj, None)
-        if constrain:
-            immediately_addable_types = constrain.getLocallyAllowedTypes()
-            for t in types:
-                self.failUnless(t in immediately_addable_types)
 
         # trying to add any other content type raises an error
         self.assertRaises(ValueError,
                           self.obj.invokeFactory, 'Document', 'foo')
 
         try:
-            self.obj.invokeFactory('sc.s17.project.content', 'foo')
+            self.obj.invokeFactory('sc.s17.project', 'foo')
         except Unauthorized:
             self.fail()
 
