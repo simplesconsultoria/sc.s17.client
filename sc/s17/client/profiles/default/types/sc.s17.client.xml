@@ -8,18 +8,19 @@
   <property name="content_icon">++resource++sc.s17.client/client_icon.png</property>
   <property name="factory">sc.s17.client.content</property>
   <property name="global_allow">True</property>
-  <property name="filter_content_types">True</property>  
+  <property name="filter_content_types">True</property>
   <property name="allowed_content_types">
       <element value="sc.s17.project.content"/>
   </property>
   <property name="allow_discussion">False</property>
 
   <!-- schema and class used for content items -->
-  <property name="schema">sc.s17.client.content.IClient</property> 
+  <property name="schema">sc.s17.client.content.IClient</property>
   <property name="klass">plone.dexterity.content.Container</property>
 
   <property name="behaviors">
      <element value="plone.app.content.interfaces.INameFromTitle" />
+     <element value="plone.app.dexterity.behaviors.metadata.IBasic" />
      <element value="plone.app.referenceablebehavior.referenceable.IReferenceable" />
    </property>
 

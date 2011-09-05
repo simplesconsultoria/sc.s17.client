@@ -16,7 +16,7 @@ from Products.CMFPlone.interfaces.constrains import IConstrainTypes
 from sc.s17.client.content import IClient
 from sc.s17.client.testing import INTEGRATION_TESTING
 
-ctype = 'sc.s17.client.content'
+ctype = 'sc.s17.client'
 
 
 class TestClientIntegration(unittest.TestCase):

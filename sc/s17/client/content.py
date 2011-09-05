@@ -11,19 +11,8 @@ from sc.s17.client import MessageFactory as _
 
 class IClient(form.Schema):
 
-    title = schema.TextLine(
-            title=_(u"Title"),
-            description=_(u""),
-        )
-
-    description = schema.Text(
-            title=_(u"Description"),
-            description=_(u""),
-            required=False,
-        )
-
     image = NamedBlobImage(
-            title=_(u"Image"),
-            description=_(""),
-            required=False,
+        title=_(u"Image"),
+        description=_(""),
+        required=False,
         )
