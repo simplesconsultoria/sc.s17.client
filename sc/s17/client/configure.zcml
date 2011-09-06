@@ -7,6 +7,7 @@
     i18n_domain="sc.s17.client">
 
   <includeDependencies package="." />
+  <five:registerPackage package="." />
 
   <permission
       id="sc.s17.client.AddClient"
