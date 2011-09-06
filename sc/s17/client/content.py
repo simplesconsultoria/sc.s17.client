@@ -4,7 +4,7 @@ from Acquisition import aq_inner
 
 from five import grok
 
-from plone.directives import form
+from plone.directives import form, dexterity
 from plone.namedfile.field import NamedBlobImage
 
 from Products.CMFPlone.utils import getToolByName
@@ -22,7 +22,7 @@ class IClient(form.Schema):
         )
 
 
-class View(grok.View):
+class View(dexterity.DisplayForm):
     grok.context(IClient)
     grok.require('zope2.View')
 

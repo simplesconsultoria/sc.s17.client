@@ -20,7 +20,7 @@
 
         <div tal:replace="structure provider:plone.abovecontentbody" />
 
-        <!-- div tal:content="structure context/image/output" / -->
+        <div tal:content="structure view/w/image/render" />
 
         <div tal:replace="structure provider:plone.belowcontentbody" />
 
