@@ -40,5 +40,5 @@ class View(dexterity.DisplayForm):
         projects = [brain.getObject() for brain in projects]
         projects = [{'title': obj.Title(),
                      'description': obj.Description(),
-                     'url': obj.remoteUrl} for obj in projects]
+                     'url': obj.absolute_url()} for obj in projects]
         return projects
