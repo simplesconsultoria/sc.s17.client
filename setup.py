@@ -32,7 +32,6 @@ setup(name='sc.s17.client',
         'plone.app.referenceablebehavior',
         'plone.namedfile[blobs]',
         'plone.formwidget.namedfile',
-        'collective.autopermission',
         'sc.s17.project',
         ],
       extras_require={
