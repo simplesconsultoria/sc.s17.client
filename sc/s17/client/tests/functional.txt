@@ -19,15 +19,25 @@ Functional test:
 
     >>> browser.getLink('Home').click()
     >>> browser.getLink('Client').click()
-    >>> browser.getControl('Title').value = 'Lorem ipsum'
-    >>> browser.getControl('Description').value = 'Curabitur vestibulum ullamcorper rutrum.'
+    >>> browser.getControl('Title').value = 'Cras porta suscipit libero'
+    >>> browser.getControl('Description').value = 'Morbi eu lectus ipsum.'
     >>> browser.getControl('Save').click()
     >>> 'Item created' in browser.contents
     True
 
-    >>> browser.getLink('Lorem ipsum').click()
-    >>> 'Curabitur vestibulum ullamcorper rutrum.' in browser.contents
+    >>> browser.getLink('Cras porta suscipit libero').click()
+    >>> 'Morbi eu lectus ipsum.' in browser.contents
     True
 
-    >>> open('/tmp/test.html', 'w').write(browser.contents)
+    >>> browser.getLink('Project').click()
+    >>> browser.getControl('Title').value = 'Quisque et odio nulla'
+    >>> browser.getControl('Description').value = 'Curabitur nec elementum massa.'
+    >>> browser.getControl('Save').click()
+    >>> 'Item created' in browser.contents
+    True
+
+    >>> browser.getLink('Cras porta suscipit libero').click()
+    >>> browser.getLink('Quisque et odio nulla').click()
+    >>> 'Curabitur nec elementum massa.' in browser.contents
+    True
 

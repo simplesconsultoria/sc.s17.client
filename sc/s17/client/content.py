@@ -37,8 +37,4 @@ class View(dexterity.DisplayForm):
                            path='/'.join(context.getPhysicalPath()),
                            sort_on='getObjPositionInParent')
 
-        projects = [brain.getObject() for brain in projects]
-        projects = [{'title': obj.Title(),
-                     'description': obj.Description(),
-                     'url': obj.absolute_url()} for obj in projects]
         return projects
