@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<object name="portal_workflow">
+ <object name="client_workflow" meta_type="Workflow"/>
+ <bindings>
+  <type type_id="sc.s17.client">
+   <bound-workflow workflow_id="client_workflow"/>
+  </type>
+ </bindings>
+</object>
