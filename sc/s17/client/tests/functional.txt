@@ -19,25 +19,33 @@ Functional test:
 
     >>> browser.getLink('Home').click()
     >>> browser.getLink('Client').click()
-    >>> browser.getControl('Title').value = 'Cras porta suscipit libero'
-    >>> browser.getControl('Description').value = 'Morbi eu lectus ipsum.'
+    >>> browser.getControl('Title').value = 'Simples Consultoria'
+    >>> browser.getControl('Description').value = 'Soluções de tecnologia da informação.'
     >>> browser.getControl('Save').click()
     >>> 'Item created' in browser.contents
     True
 
-    >>> browser.getLink('Cras porta suscipit libero').click()
-    >>> 'Morbi eu lectus ipsum.' in browser.contents
+    >>> browser.getLink('Simples Consultoria').click()
+    >>> 'Soluções de tecnologia da informação.' in browser.contents
     True
 
-    >>> browser.getLink('Project').click()
-    >>> browser.getControl('Title').value = 'Quisque et odio nulla'
-    >>> browser.getControl('Description').value = 'Curabitur nec elementum massa.'
+Can't add projects until client is active:
+
+    >>> browser.getLink(url='++add++sc.s17.project')
+    Traceback (most recent call last):
+    ...
+    LinkNotFoundError
+    >>> browser.getLink('Activate').click()
+
+    >>> browser.getLink(url='++add++sc.s17.project').click()
+    >>> browser.getControl('Title').value = 'Lorem ipsum'
+    >>> browser.getControl('Description').value = 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet.'
     >>> browser.getControl('Save').click()
     >>> 'Item created' in browser.contents
     True
 
-    >>> browser.getLink('Cras porta suscipit libero').click()
-    >>> browser.getLink('Quisque et odio nulla').click()
-    >>> 'Curabitur nec elementum massa.' in browser.contents
+    >>> browser.getLink('Simples Consultoria').click()
+    >>> browser.getLink('Lorem ipsum').click()
+    >>> 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet.' in browser.contents
     True
 

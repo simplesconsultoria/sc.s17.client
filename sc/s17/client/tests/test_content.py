@@ -11,13 +11,15 @@ from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
 from plone.dexterity.interfaces import IDexterityFTI
 
+from Products.CMFCore.utils import getToolByName
+
 from sc.s17.client.content import IClient
 from sc.s17.client.testing import INTEGRATION_TESTING
 
 ctype = 'sc.s17.client'
 
 
-class TestClientIntegration(unittest.TestCase):
+class IntegrationTest(unittest.TestCase):
 
     layer = INTEGRATION_TESTING
 
@@ -27,6 +29,7 @@ class TestClientIntegration(unittest.TestCase):
         self.portal.invokeFactory('Folder', 'test-folder')
         setRoles(self.portal, TEST_USER_ID, ['Member'])
         self.folder = self.portal['test-folder']
+        self.workflow_tool = getToolByName(self.portal, 'portal_workflow')
 
         self.folder.invokeFactory(ctype, 'obj')
         self.obj = self.folder['obj']
@@ -49,7 +52,23 @@ class TestClientIntegration(unittest.TestCase):
         new_object = createObject(factory)
         self.failUnless(IClient.providedBy(new_object))
 
+    def test_default_workflow(self):
+        chain = self.workflow_tool.getChainForPortalType(self.obj.portal_type)
+        self.failUnless(chain == ('client_workflow',))
+
+    def test_workflow(self):
+        status = self.workflow_tool.getStatusOf('client_workflow', self.obj)
+        self.failUnless(status['review_state'] == 'inactive')
+
+        self.assertRaises(Unauthorized,
+                          self.obj.invokeFactory, 'sc.s17.project', 'foo')
+
     def test_allowed_content_types(self):
+        # projects can only be added to an active client
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        self.workflow_tool.doActionFor(self.obj, 'activate')
+        setRoles(self.portal, TEST_USER_ID, ['Member'])
+
         types = ['sc.s17.project']
         allowed_types = [t.getId() for t in self.obj.allowedContentTypes()]
         for t in types:

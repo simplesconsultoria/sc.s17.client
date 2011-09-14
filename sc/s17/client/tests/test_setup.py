@@ -34,6 +34,11 @@ class TestInstall(unittest.TestCase):
             self.failUnless(self.qi.isProductInstalled(p),
                             '%s not installed' % p)
 
+    def test_workflow(self):
+        workflow_tool = getattr(self.portal, 'portal_workflow')
+        ids = workflow_tool.getWorkflowIds()
+        self.failUnless('client_workflow' in ids)
+
 
 class TestUninstall(unittest.TestCase):
     """ensure product is properly uninstalled"""
