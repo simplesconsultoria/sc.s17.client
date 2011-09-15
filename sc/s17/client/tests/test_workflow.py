@@ -2,16 +2,9 @@
 
 import unittest2 as unittest
 
-from AccessControl import Unauthorized
-
-from zope.component import createObject
-from zope.component import queryUtility
-
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
-from plone.dexterity.interfaces import IDexterityFTI
 
-from sc.s17.client.content import IClient
 from sc.s17.client.testing import INTEGRATION_TESTING
 
 ctype = 'sc.s17.client'
