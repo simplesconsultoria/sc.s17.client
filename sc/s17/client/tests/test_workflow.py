@@ -2,19 +2,16 @@
 
 import unittest2 as unittest
 
-from AccessControl import Unauthorized
-
-from zope.component import createObject
-from zope.component import queryUtility
-
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
-from plone.dexterity.interfaces import IDexterityFTI
 
-from sc.s17.client.content import IClient
+from Products.CMFCore.WorkflowCore import WorkflowException
+
 from sc.s17.client.testing import INTEGRATION_TESTING
 
 ctype = 'sc.s17.client'
+workflow_id = 'client_workflow'
+
 
 class TestClientIntegration(unittest.TestCase):
 
@@ -22,7 +19,7 @@ class TestClientIntegration(unittest.TestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']
-        self.workflow = self.portal['portal_workflow']
+        self.workflow_tool = getattr(self.portal, 'portal_workflow')
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         self.portal.invokeFactory('Folder', 'test-folder')
         setRoles(self.portal, TEST_USER_ID, ['Member'])
@@ -31,21 +28,39 @@ class TestClientIntegration(unittest.TestCase):
         self.folder.invokeFactory(ctype, 'obj')
         self.obj = self.folder['obj']
 
-    def test_workflow_client_installed(self):
-        workflow_id = 'client_workflow'
-        workflows_ids = self.workflow.getWorkflowIds()
-        self.failUnless(workflow_id in workflows_ids)
+    def test_workflow_installed(self):
+        ids = self.workflow_tool.getWorkflowIds()
+        self.failUnless(workflow_id in ids)
 
-    def test_workflow_client_applied(self):
-        workflow_id = 'client_workflow'
-        self.failUnless(workflow_id in self.workflow.getWorkflowsFor(self.obj)[0].id)
+    def test_default_workflow(self):
+        chain = self.workflow_tool.getChainForPortalType(self.obj.portal_type)
+        self.failUnless(len(chain) == 1)
+        self.failUnless(chain[0] == workflow_id)
 
-    def test_workflow_client_transitions(self):
-        trans = self.workflow.getTransitionsFor(self.obj)
-        self.assertEqual(len(trans), 1)
+    def test_workflow_initial_state(self):
+        status = self.workflow_tool.getStatusOf(workflow_id, self.obj)
+        self.failUnless(status['review_state'] == 'inactive')
 
-    def test_workflow_client_states(self):
-        wf_names = ['client_workflow',]
-        workflows = self.workflow.getChainFor(self.obj)
-        for wf_name in wf_names:
-            self.failUnless(wf_name in workflows)
+    def test_workflow_transitions(self):
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        self.workflow_tool.doActionFor(self.obj, 'activate')
+        status = self.workflow_tool.getStatusOf(workflow_id, self.obj)
+        self.failUnless(status['review_state'] == 'active')
+        self.workflow_tool.doActionFor(self.obj, 'deactivate')
+        status = self.workflow_tool.getStatusOf(workflow_id, self.obj)
+        self.failUnless(status['review_state'] == 'inactive')
+
+    def test_workflow_permissions(self):
+        # guard-permission: Review portal content
+        self.assertRaises(WorkflowException,
+                          self.workflow_tool.doActionFor,
+                          self.obj, 'activate')
+
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        self.workflow_tool.doActionFor(self.obj, 'activate')
+        setRoles(self.portal, TEST_USER_ID, ['Member'])
+
+        # guard-permission: Review portal content
+        self.assertRaises(WorkflowException,
+                          self.workflow_tool.doActionFor,
+                          self.obj, 'deactivate')
