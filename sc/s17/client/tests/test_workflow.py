@@ -13,7 +13,7 @@ ctype = 'sc.s17.client'
 workflow_id = 'client_workflow'
 
 
-class TestClientIntegration(unittest.TestCase):
+class WorkflowTest(unittest.TestCase):
 
     layer = INTEGRATION_TESTING
 
