@@ -38,17 +38,17 @@ class WorkflowTest(unittest.TestCase):
         self.failUnless(chain[0] == workflow_id)
 
     def test_workflow_initial_state(self):
-        status = self.workflow_tool.getStatusOf(workflow_id, self.obj)
-        self.failUnless(status['review_state'] == 'inactive')
+        review_state = self.workflow_tool.getInfoFor(self.obj, 'review_state')
+        self.assertEqual(review_state, 'inactive')
 
     def test_workflow_transitions(self):
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         self.workflow_tool.doActionFor(self.obj, 'activate')
-        status = self.workflow_tool.getStatusOf(workflow_id, self.obj)
-        self.failUnless(status['review_state'] == 'active')
+        review_state = self.workflow_tool.getInfoFor(self.obj, 'review_state')
+        self.assertEqual(review_state, 'active')
         self.workflow_tool.doActionFor(self.obj, 'deactivate')
-        status = self.workflow_tool.getStatusOf(workflow_id, self.obj)
-        self.failUnless(status['review_state'] == 'inactive')
+        review_state = self.workflow_tool.getInfoFor(self.obj, 'review_state')
+        self.assertEqual(review_state, 'inactive')
 
     def test_workflow_permissions(self):
         # guard-permission: Review portal content
