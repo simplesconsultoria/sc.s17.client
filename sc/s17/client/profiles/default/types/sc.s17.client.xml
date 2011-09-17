@@ -6,7 +6,7 @@
   <property name="title" i18n:translate="">Client</property>
   <property name="description" i18n:translate=""></property>
   <property name="content_icon">++resource++sc.s17.client/client_icon.png</property>
-  <property name="factory">sc.s17.client.content</property>
+  <property name="factory">sc.s17.client</property>
   <property name="global_allow">True</property>
   <property name="filter_content_types">True</property>
   <property name="allowed_content_types">
