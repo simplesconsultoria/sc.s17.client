@@ -28,7 +28,7 @@ setup(name='sc.s17.client',
       zip_safe=False,
       install_requires=[
         'setuptools',
-        'plone.app.dexterity==1.0.1',
+        'plone.app.dexterity==1.0.3',
         'plone.app.referenceablebehavior==0.3',
         'plone.namedfile[blobs]',
         'plone.formwidget.namedfile',
