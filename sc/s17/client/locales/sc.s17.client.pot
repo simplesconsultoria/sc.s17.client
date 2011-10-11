@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-09-01 18:19+0000\n"
+"POT-Creation-Date: 2011-10-07 21:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,23 +14,15 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 
-#: ../client.py:14
+#: ../content.py:20
 msgid ""
 msgstr ""
 
-#: ../profiles/default/types/sc.s17.client.client.xml
+#: ../profiles/default/types/sc.s17.client.xml
 msgid "Client"
 msgstr ""
 
-#: ../client.py:18
-msgid "Description"
-msgstr ""
-
-#: ../client.py:24
+#: ../content.py:19
 msgid "Image"
-msgstr ""
-
-#: ../client.py:13
-msgid "Title"
 msgstr ""
 

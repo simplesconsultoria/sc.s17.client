@@ -14,19 +14,11 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: sc.s17.client\n"
 
-#: ../profiles/default/types/sc.s17.client.client.xml
+#: ../profiles/default/types/sc.s17.client.xml
 msgid "Client"
 msgstr "Cliente"
 
-#: ../client.py:18
-msgid "Description"
-msgstr "Descrição"
-
-#: ../client.py:24
+#: ../content.py:19
 msgid "Image"
 msgstr "Imagem"
-
-#: ../client.py:13
-msgid "Title"
-msgstr "Título"
 
